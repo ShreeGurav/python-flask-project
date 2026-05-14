@@ -102,6 +102,6 @@ jobs:
       - name: Verify deployment
         run: |
           echo "Waiting for pods to be ready..."
-          kubectl wait --for=condition=ready pod -l app=flask-hello-world -n ${{ env.NAMESPACE }} --timeout=300s || true
+          kubectl wait --for=condition=ready pod -l app=flask-hello-world -n ${{ env.NAMESPACE }} --timeout=60s || true
           kubectl get pods -n ${{ env.NAMESPACE }}
           kubectl get svc -n ${{ env.NAMESPACE }}
