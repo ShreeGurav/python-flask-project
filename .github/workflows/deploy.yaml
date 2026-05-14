@@ -34,11 +34,6 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Get ACR credentials
-        run: |
-          echo "ACR_USERNAME=$(az acr credential show --name shaksacr --query "username" -o tsv)" >> $GITHUB_ENV
-          echo "ACR_PASSWORD=$(az acr credential show --name shaksacr --query "passwords[0].value" -o tsv)" >> $GITHUB_ENV
-
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
@@ -48,8 +43,8 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
           registry: ${{ env.REGISTRY }}
-          username: ${{ env.ACR_USERNAME }}
-          password: ${{ env.ACR_PASSWORD }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
 
   deploy-to-aks:
     needs: build-and-push
