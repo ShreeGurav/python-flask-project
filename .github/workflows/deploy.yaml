@@ -90,6 +90,11 @@ jobs:
         run: |
           sed -i "s|image: shaksacr.azurecr.io/flask-hello-world:.*|image: shaksacr.azurecr.io/flask-hello-world:${{ github.sha }}|g" k8s/aks-deploy.yaml
 
+      - name: Clean up old deployment
+        run: |
+          kubectl delete deployment flask-hello-world -n ${{ env.NAMESPACE }} --ignore-not-found=true
+          kubectl delete service flask-hello-world-svc -n ${{ env.NAMESPACE }} --ignore-not-found=true
+
       - name: Deploy with kubectl manifest
         run: |
           kubectl apply -f k8s/aks-deploy.yaml -n ${{ env.NAMESPACE }}
