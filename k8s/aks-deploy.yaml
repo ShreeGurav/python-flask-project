@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-hello-world
+  namespace: sh-acr-deploy-dev
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: flask-hello-world
+  template:
+    metadata:
+      labels:
+        app: flask-hello-world
+    spec:
+      containers:
+      - name: flask
+        image: shaksacr.azurecr.io/flask-hello-world:1.0
+        ports:
+        - containerPort: 5001
+        env:
+        - name: FLASK_ENV
+          value: production
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: sh-acr-deploy-dev
+  name: flask-hello-world-svc
+spec:
+  type: LoadBalancer
+  selector:
+    app: flask-hello-world
+  ports:
+  - port: 80
+    targetPort: 5001
+    protocol: TCP
