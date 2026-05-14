@@ -1,0 +1,6 @@
+dependencies:
+- name: flask-app
+  repository: file://../flask-app
+  version: 0.1.0
+digest: sha256:060a69eedc0725aabd54af5b44bdb95541bcdcdbf1fa1253e798d04651bc04cb
+generated: "2026-05-14T22:44:40.2663+05:30"
